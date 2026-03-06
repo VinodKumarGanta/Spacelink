@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Space-Link | Mission Control</title>
+    <link rel="stylesheet" href="index.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+</head>
+
+<body>
+    <div class="stars"></div>
+    <div class="twinkling"></div>
+    <div class="nebula"></div>
+    <div class="scanlines"></div>
+
+    <div class="dashboard">
+        <header class="header">
+            <div class="logo">O.R.I.O.N. <span>//</span> SPACE-LINK</div>
+            <div class="status-indicator">
+                <div class="pulse"></div>
+                <span>Uplink Active</span>
+            </div>
+            <div class="time" id="sim-time">T+ 00:00:00</div>
+        </header>
+
+        <div class="main-content">
+            <div class="side-panel left-panel">
+                <div class="panel telemetry">
+                    <h2>SYSTEM TELEMETRY</h2>
+                    <div class="data-row">
+                        <span class="label">Distance to Moon</span>
+                        <span class="value highlight" id="distance-val">384,400 km</span>
+                    </div>
+                    <div class="data-row">
+                        <span class="label">One-Way Light Time</span>
+                        <span class="value" id="owlt-val">1.28 sec</span>
+                    </div>
+                    <div class="data-row">
+                        <span class="label">Signal Attenuation</span>
+                        <span class="value warn" id="attenuation-val">-280 dB</span>
+                    </div>
+                    <div class="data-row">
+                        <span class="label">Solar Interference</span>
+                        <span class="value" id="solar-val">Nominal</span>
+                    </div>
+                </div>
+
+                <div class="panel quantum-status">
+                    <h2>QUANTUM LINK (QKD)</h2>
+                    <div class="data-row">
+                        <span class="label">Entanglement Rate</span>
+                        <span class="value highlight">4.2M pairs/s</span>
+                    </div>
+                    <div class="data-row">
+                        <span class="label">QBER</span>
+                        <span class="value good">1.2%</span>
+                    </div>
+                    <div class="data-row">
+                        <span class="label">Superdense Coding</span>
+                        <span class="value">ACTIVE (2 Mbps)</span>
+                    </div>
+
+                    <div class="chart-container">
+                        <div class="bar-chart" id="qber-chart">
+                            <!-- JS will populate -->
+                        </div>
+                        <div class="chart-label">Quantum Bit Error Rate (Historical)</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="center-stage">
+                <div id="canvas-container"></div>
+                <div class="hud-overlay">
+                    <div class="target-box earth-target">
+                        <span>EARTH - DSNO</span>
+                    </div>
+                    <div class="target-box mars-target">
+                        <span>MOON - STATION</span>
+                    </div>
+                </div>
+
+
+                <div class="transmission-logs" id="logs-container">
+                    <div class="log-entry info">> Initializing quantum relays...</div>
+                    <div class="log-entry success">> Earth-Moon alignment nominal.</div>
+                    <div class="log-entry warning">> Adjusting for solar wind interference.</div>
+                </div>
+            </div>
+
+            <div class="side-panel right-panel">
+                <div class="panel efficiency">
+                    <h2>EFFICIENCY VS RF</h2>
+                    <div class="comparison">
+                        <div class="comp-col">
+                            <div class="col-title">Standard RF</div>
+                            <div class="col-val">250 Kbps</div>
+                            <div class="col-bar rf-bar"></div>
+                        </div>
+                        <div class="comp-col">
+                            <div class="col-title highlight">Space-Link</div>
+                            <div class="col-val highlight">2.0 Mbps</div>
+                            <div class="col-bar spl-bar"></div>
+                        </div>
+                    </div>
+                    <div class="gain-metric">
+                        <span>NET GAIN:</span>
+                        <span class="highlight">800%</span>
+                    </div>
+                </div>
+
+                <div class="panel user-uplink">
+                    <h2>USER COMMAND UPLINK</h2>
+                    <div class="control-group">
+                        <label>Payload Message</label>
+                        <input type="text" id="user-input" placeholder="Type message to Moon..."
+                            style="background: #000; border: 1px solid var(--border-glow); color: var(--neon-blue); padding: 10px; border-radius: 4px; outline: none; font-family: var(--font-main);">
+                    </div>
+                    <button class="action-btn" id="send-user-btn">SEND TO MOON</button>
+
+                    <div id="media-output" class="payload-media"
+                        style="margin-top: 10px; border-color: var(--cyber-gold);">
+                        <div class="inbox-title" style="color: var(--cyber-gold); font-size: 0.6rem;">RECEIVED / DECODED
+                            DATA</div>
+                        <div id="decoded-display" style="font-size: 0.9rem; color: #fff;">Waiting for response...</div>
+                        <div id="media-container" class="media-display">
+                            <img id="payload-image" class="payload-image" src=""
+                                style="display:none; width: 100%; margin-top: 5px;">
+                            <div id="payload-video" class="payload-video" style="display:none;">[VIDEO FEED ACTIVE]
+                            </div>
+                            <div id="payload-audio" class="payload-audio" style="display:none;">🔊 AUDIO STREAM
+                                active...</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel mission-history">
+                    <h2>MISSION DATABASE</h2>
+                    <div class="history-table-container">
+                        <table id="history-table">
+                            <thead>
+                                <tr>
+                                    <th>Src</th>
+                                    <th>Dest</th>
+                                    <th>Status</th>
+                                    <th>Data</th>
+                                    <th>Sec</th>
+                                </tr>
+                            </thead>
+                            <tbody id="history-body">
+                                <!-- Populated by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <button class="action-btn secondary" id="refresh-db-btn">REFRESH DATA</button>
+                </div>
+
+                <div class="panel controls">
+                    <h2>SIMULATION CONTROLS</h2>
+                    <div class="control-group">
+                        <label>Distance (km)</label>
+                        <input type="range" id="dist-slider" min="350000" max="406000" value="384400">
+                        <span id="dist-display">384400</span>
+                    </div>
+                    <div class="control-group">
+                        <label>Transmission Mode</label>
+                        <select id="mode-select">
+                            <option value="quantum">Quantum (Superdense)</option>
+                            <option value="classical">Classical Optical</option>
+                            <option value="rf">Standard RF</option>
+                        </select>
+                    </div>
+                    <button class="action-btn" id="transmit-btn">INITIATE TRANSMISSION</button>
+                    <button class="action-btn secondary" id="clear-btn">CLEAR LOGS</button>
+                </div>
+
+                <div class="panel controls">
+                    <h2>ANOMALY RESOLUTION</h2>
+                    <div class="control-group">
+                        <label>System Override</label>
+                        <button class="action-btn secondary" id="resolve-btn"
+                            style="border-color: #00ff88; color: #00ff88;">RESTORE NOMINAL STATUS</button>
+                        <button class="action-btn secondary" id="inject-btn"
+                            style="border-color: var(--alert-red); color: var(--alert-red);">FORCE JAMMING TEST</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="dashboard-border top-left"></div>
+        <div class="dashboard-border top-right"></div>
+        <div class="dashboard-border bottom-left"></div>
+        <div class="dashboard-border bottom-right"></div>
+    </div>
+
+    <!-- Script for interactive elements and 3D rendering -->
+    <script src="app.js"></script>
+</body>
+
+</html>
