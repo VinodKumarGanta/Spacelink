@@ -4,6 +4,10 @@ import os
 from space_env import SpaceEnvironment
 from quantum_relay import QuantumRelay
 from database_manager import MissionDatabase
+from jepa_engine import JEPAEngine
+from sovereignty_ledger import SovereigntyLedger
+from sovereign_slm import SovereignSLM
+from ip_guard import IPGuard
 
 def run_continuous_simulation():
     """
@@ -19,6 +23,10 @@ def run_continuous_simulation():
     space = SpaceEnvironment(distance_km)
     quantum = QuantumRelay()
     db = MissionDatabase()
+    jepa = JEPAEngine()
+    ledger = SovereigntyLedger()
+    slm = SovereignSLM()
+    guard = IPGuard()
     
     if db.url == "YOUR_SUPABASE_PROJECT_URL":
         print("[!] ABORTED: Supabase credentials not configured in database_manager.py")
@@ -27,6 +35,10 @@ def run_continuous_simulation():
     one_way_latency = space.get_one_way_light_time()
     print(f"Distance: {distance_km} km")
     print(f"Network Latency: {one_way_latency:.2f} seconds (one-way)")
+    
+    # Initial IP Guard Check
+    guard.verify_system_integrity()
+    
     print("Press Ctrl+C to stop simulation.\n")
 
     try:
@@ -132,8 +144,9 @@ def run_continuous_simulation():
             
             if status == "SUCCESS" and (user_msg or random.random() < 0.2): 
                 if user_msg:
-                    protocol = "Quantum-SDC-Text"
-                    payload_bits = f"User Command: {user_msg}"
+                    processed_msg = slm.process_command(user_msg)
+                    protocol = "Quantum-SDC-SLM"
+                    payload_bits = f"User Command: {processed_msg}"
                     user_msg = None # Handled
                 else:
                     m_type = random.choice(["IMAGE", "VIDEO", "AUDIO", "TEXT"])
@@ -150,18 +163,47 @@ def run_continuous_simulation():
                         protocol = "Quantum-SDC-Text"
                         payload_bits = f"Final Msg: {random.choice(['All systems nominal.', 'Oxygen levels 98%.', 'Requesting orbital plot.'])}"
 
-            # 6. Log to Supabase Cloud
-            print(f"[LIVE] {source} -> {dest} | Type: {protocol} | Status: {status}")
+            # 6. AI & Sovereignty Check (Foundational AI & Blockchain)
+            # JEPA Prediction
+            vitals = {"solar_flux": random.randint(50, 200), "cosmic_noise": random.randint(5, 25)}
+            prediction = jepa.predict_anomaly(vitals)
+            
+            # Blockchain Logging
+            tx_id = ledger.secure_log(payload_bits)
+            
+            # Enhanced Logging for Dashboard
+            final_status = status
+            if prediction["prediction"] != "NOMINAL":
+                final_status = f"MITIGATED ({prediction['prediction']})"
+                print(f">>> [JEPA PREDICTION] {prediction['prediction']} | Mitigating using Sovereign Protocol...")
+
+            # 7. Log to Supabase Cloud
+            print(f"[LIVE] {source} -> {dest} | Type: {protocol} | Status: {final_status} | TXID: {tx_id}")
             db.log_transmission(
                 source=source,
                 destination=dest,
                 protocol=protocol,
-                data_bits=payload_bits,
-                status=status,
+                data_bits=f"{payload_bits} | TXID:{tx_id}",
+                status=final_status,
                 latency=one_way_latency,
                 qber=qber
             )
             
+            # 8. Periodic Sovereign Audit (IP-Guard Integrity Check)
+            if random.random() < 0.2: # ~20% chance per packet to perform a deep audit
+                integrity = guard.get_integrity_status()
+                audit_bits = f"IP-GUARD-AUDIT: {integrity} | BLOCKCHAIN_ID: {ledger.ledger_id[:16]}"
+                db.log_transmission(
+                    source="SYS-AUDIT",
+                    destination="SOVEREIGN-OPS",
+                    protocol="SOVEREIGN_AUDIT",
+                    data_bits=audit_bits,
+                    status="SUCCESS",
+                    latency=0.0,
+                    qber=0.0
+                )
+                print(f">>> [SOVEREIGN AUDIT] System integrity verified. Ledger: {ledger.ledger_id[:8]}...")
+
             # Wait between bursts (adjust for data frequency)
             time.sleep(random.uniform(2, 5))
 

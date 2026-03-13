@@ -10,7 +10,9 @@ Space-Link is an advanced simulation of a deep-space communication relay between
 The project features a **Premium HUD Mission Control** dashboard designed for real-time monitoring of planetary data links.
 
 ## ✨ Key Features
-- **Quantum Superdense Coding (QSDC)**: Simulates the transmission of 2 classical bits using only 1 entangled qubit.
+- **Quantum Superdense Coding (QSDC)**: Simulates the transmission of 2 classical bits using only 1 entangled qubit (Photonics-based).
+- **Space-JEPA (Foundational AI)**: Joint-Embedding Predictive Architecture for proactive space environment anomaly detection.
+- **Sovereignty Ledger (Blockchain)**: Immutable traceability for every data packet to ensure Digital Sovereignty.
 - **Advanced AIGC-HUD**: A professional, glassmorphism-based dashboard with real-time Three.js orbital visualizations.
 - **Multimedia Payloads**: Supports transmission and decryption of **Images, Video, Audio, and Telemetry**.
 - **User Command Uplink**: Interactive UI section allowing operators to send direct commands to the Lunar station.
@@ -19,9 +21,11 @@ The project features a **Premium HUD Mission Control** dashboard designed for re
 ## 🛠️ Project Structure
 - `launcher.py`: The main entry point. Starts the Mission Control server and browser.
 - `continuous_simulation.py`: The physics/quantum engine that generates live mission data.
+- `jepa_engine.py`: Foundational AI engine for predictive modeling of signal paths.
+- `sovereignty_ledger.py`: Blockchain-based ledger for transmission traceability.
 - `database_manager.py`: Handles secure sync with the Supabase Cloud database.
 - `dashboard/`: The web-based Mission Control interface (HTML5/CSS3/Vanilla JS).
-- `quantum_relay.py`: Core logic for Superdense Coding and QBER (Quantum Bit Error Rate) calculation.
+- `quantum_relay.py`: Core logic for Superdense Coding and QBER calculation.
 
 ## 🚦 Getting Started
 

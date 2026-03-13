@@ -655,3 +655,144 @@ input[type="range"]::-webkit-slider-thumb {
     color: var(--alert-red);
     font-weight: 900;
 }
+
+/* MOBILE RESPONSIVENESS */
+@media (max-width: 1200px) {
+    .main-content {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .right-panel {
+        grid-column: span 2;
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    .right-panel .panel {
+        flex: 1 1 300px;
+    }
+}
+
+@media (max-width: 1024px) {
+
+    body,
+    .dashboard {
+        overflow-y: auto;
+        height: auto;
+        min-height: 100vh;
+        align-items: flex-start;
+    }
+
+    .dashboard {
+        padding: 5px;
+        overflow-x: hidden;
+    }
+
+    .main-content {
+        grid-template-columns: 1fr;
+        height: auto;
+        overflow: visible;
+        gap: 10px;
+    }
+
+    .header {
+        flex-direction: column;
+        padding: 1rem;
+        gap: 15px;
+        text-align: center;
+        border-radius: 8px;
+    }
+
+    .logo {
+        font-size: 1.2rem;
+    }
+
+    .side-panel {
+        height: auto;
+        overflow: visible;
+    }
+
+    .center-stage {
+        height: 50vh;
+        min-height: 400px;
+        order: -1;
+        /* Visualizer at the top for mobile */
+    }
+
+    .left-panel {
+        order: 0;
+    }
+
+    .right-panel {
+        order: 1;
+        flex-direction: column;
+    }
+
+    .transmission-logs {
+        height: 120px;
+        padding: 10px 15px;
+        position: relative;
+    }
+
+    .panel {
+        padding: 1rem;
+    }
+
+    .history-table-container {
+        overflow-x: auto;
+    }
+
+    #history-table {
+        min-width: 500px;
+    }
+
+    .dashboard-border {
+        display: none;
+        /* Hide decorative borders on small screens */
+    }
+
+    .hud-overlay {
+        top: 10px;
+        left: 10px;
+    }
+
+    .target-box {
+        font-size: 0.6rem;
+        padding: 5px 10px;
+    }
+
+    #user-input {
+        font-size: 16px !important;
+        /* iOS zoom fix */
+    }
+}
+
+/* Small Phone Optimization */
+@media (max-width: 480px) {
+    .header {
+        padding: 0.8rem;
+    }
+
+    .logo {
+        font-size: 1rem;
+        letter-spacing: 1px;
+    }
+
+    .time {
+        font-size: 0.9rem;
+    }
+
+    .center-stage {
+        height: 40vh;
+        min-height: 300px;
+    }
+
+    .gain-metric .highlight {
+        font-size: 1.4rem;
+    }
+
+    .action-btn {
+        padding: 12px;
+        font-size: 0.7rem;
+    }
+}

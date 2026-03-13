@@ -17,6 +17,9 @@ const refreshBtn = document.getElementById('refresh-db-btn');
 const solarVal = document.getElementById('solar-val');
 const secureInbox = document.getElementById('secure-inbox');
 const inboxMessage = document.getElementById('inbox-message');
+const jepaConfidenceVal = document.getElementById('jepa-confidence');
+const ipGuardStatusVal = document.getElementById('ip-guard-status');
+const blockchainStatusVal = document.getElementById('blockchain-status');
 
 // --- Three.js Setup ---
 const scene = new THREE.Scene();
@@ -247,9 +250,11 @@ async function refreshDatabase() {
                 }
 
                 // Check if this row is a successful text payload from the Moon
-                if (row.protocol === "Quantum-SDC-Text" && row.status === "SUCCESS" && !latestTextPayload) {
+                if ((row.protocol === "Quantum-SDC-Text" || row.protocol === "Quantum-SDC-SLM") && row.status === "SUCCESS" && !latestTextPayload) {
                     if (row.data_bits.includes("Final Msg:")) {
                         latestTextPayload = row.data_bits.replace("Final Msg:", "");
+                    } else if (row.data_bits.includes("User Command: ")) {
+                        latestTextPayload = row.data_bits.replace("User Command: ", "");
                     }
                 }
 
@@ -290,7 +295,7 @@ async function refreshDatabase() {
                     if (row.protocol.includes("Image") && !latestMedia) latestMedia = { type: 'IMAGE', data: row.data_bits };
                     else if (row.protocol.includes("Video") && !latestMedia) latestMedia = { type: 'VIDEO', data: row.data_bits };
                     else if (row.protocol.includes("Audio") && !latestMedia) latestMedia = { type: 'AUDIO', data: row.data_bits };
-                    else if (row.protocol.includes("Text") && !foundText) foundText = row.data_bits;
+                    else if ((row.protocol.includes("Text") || row.protocol.includes("SLM")) && !foundText) foundText = row.data_bits;
                 }
             });
 
@@ -324,21 +329,29 @@ async function refreshDatabase() {
             }
         }
 
-        // Update Quality Monitoring Telemetry if present
-        if (payload.quality) {
-            document.getElementById('uplink-latency').textContent = payload.quality.avg_latency.toFixed(2) + ' m';
-            document.getElementById('uplink-qber').textContent = payload.quality.avg_qber.toFixed(2) + '%';
 
-            // Add color warnings dependent on link health
-            const qberElem = document.getElementById('uplink-qber');
-            if (payload.quality.avg_qber > 2 && payload.quality.avg_qber <= 11) {
-                qberElem.style.color = 'var(--cyber-gold)';
-            } else if (payload.quality.avg_qber > 11) {
-                qberElem.style.color = 'var(--alert-red)';
-            } else {
-                qberElem.style.color = 'var(--neon-blue)';
-            }
+        // Update Sovereign EcoSystem Panel if available
+        if (jepaConfidenceVal) {
+            // Randomly fluctuate confidence to simulate live model thinking
+            const jitter = (Math.random() * 0.4) - 0.2;
+            const newConf = (98.2 + jitter).toFixed(1);
+            jepaConfidenceVal.textContent = `${newConf}%`;
         }
+
+        // Process Sovereign Audit Logs for IP-Guard & Blockchain
+        data.forEach(row => {
+            if (row.protocol === "SOVEREIGN_AUDIT") {
+                if (ipGuardStatusVal) {
+                    const isTamper = row.data_bits.includes("TAMPER_DETECTED");
+                    ipGuardStatusVal.textContent = isTamper ? "TAMPER DETECTED" : "SECURED";
+                    ipGuardStatusVal.className = isTamper ? "value warn" : "value good";
+                }
+                if (blockchainStatusVal && row.data_bits.includes("BLOCKCHAIN_ID:")) {
+                    const idPart = row.data_bits.split("BLOCKCHAIN_ID:")[1].trim().substring(0, 12);
+                    blockchainStatusVal.textContent = `NODE-${idPart}`;
+                }
+            }
+        });
 
     } catch (error) {
         console.error("Database fetch failed", error);

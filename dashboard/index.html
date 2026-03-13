@@ -4,8 +4,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Space-Link | Mission Control</title>
+    <title>O.R.I.O.N. // Space-Link Mission Control</title>
     <link rel="stylesheet" href="index.css">
+    <style>
+        #strategic-briefing {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 10000;
+            padding: 40px;
+            color: white;
+            font-family: 'Outfit', sans-serif;
+            overflow-y: auto;
+        }
+        .briefing-card {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: rgba(10, 20, 40, 0.8);
+            border: 1px solid var(--border-glow);
+            border-radius: 12px;
+            padding: 30px;
+        }
+        .close-briefing {
+            position: absolute;
+            top: 20px; right: 40px;
+            cursor: pointer;
+            font-size: 2rem;
+            color: var(--alert-red);
+        }
+    </style>
     <link
         href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
@@ -21,11 +49,13 @@
     <div class="dashboard">
         <header class="header">
             <div class="logo">O.R.I.O.N. <span>//</span> SPACE-LINK</div>
-            <div class="status-indicator">
-                <div class="pulse"></div>
-                <span>Uplink Active</span>
+            <div class="header-right">
+                <span id="uplink-status" class="status-indicator">
+                    <span class="pulse"></span> UPLINK ACTIVE
+                </span>
+                <button onclick="document.getElementById('strategic-briefing').style.display='block'" style="background: none; border: 1px solid var(--cyber-gold); color: var(--cyber-gold); padding: 5px 15px; border-radius: 4px; font-size: 0.7rem; margin-left: 20px; cursor: pointer; text-transform: uppercase;">Strategic Briefing</button>
+                <span id="mission-timer" class="timer">T+ 00:00:00</span>
             </div>
-            <div class="time" id="sim-time">T+ 00:00:00</div>
         </header>
 
         <div class="main-content">
@@ -72,6 +102,26 @@
                         <div class="chart-label">Quantum Bit Error Rate (Historical)</div>
                     </div>
                 </div>
+
+                <div class="panel ecosystem-status">
+                    <h2>SOVEREIGN ECOSYSTEM</h2>
+                    <div class="data-row">
+                        <span class="label">JEPA AI Model</span>
+                        <span class="value highlight" id="jepa-model">Space-JEPA v1.0</span>
+                    </div>
+                    <div class="data-row">
+                        <span class="label">Predictive Confidence</span>
+                        <span class="value good" id="jepa-confidence">98.2%</span>
+                    </div>
+                    <div class="data-row">
+                        <span class="label">Blockchain Ledger</span>
+                        <span class="value" id="blockchain-status">SOVEREIGN V1</span>
+                    </div>
+                    <div class="data-row">
+                        <span class="label">IP-Guard Integrity</span>
+                        <span class="value good" id="ip-guard-status">SECURED</span>
+                    </div>
+                </div>
             </div>
 
             <div class="center-stage">
@@ -111,6 +161,17 @@
                     <div class="gain-metric">
                         <span>NET GAIN:</span>
                         <span class="highlight">800%</span>
+                    </div>
+                </div>
+
+                <div class="panel relay-concept">
+                    <h2>RELAY BLUEPRINT (PHOTONICS)</h2>
+                    <div class="concept-container" style="position: relative; overflow: hidden; border-radius: 4px; border: 1px solid var(--border-glow);">
+                        <img src="assets/relay_concept.jpg" alt="Relay Concept" style="width: 100%; display: block; filter: brightness(0.8) contrast(1.2);">
+                        <div class="pulse-point" style="position: absolute; top: 50%; left: 50%; width: 20px; height: 20px; background: rgba(0, 255, 255, 0.4); border-radius: 50%; transform: translate(-50%, -50%); animation: pulse 2s infinite;"></div>
+                    </div>
+                    <div style="font-size: 0.6rem; color: var(--cyber-gold); margin-top: 5px; text-align: center; text-transform: uppercase; letter-spacing: 1px;">
+                        Deep-Space Quantum-SDC Relay Node v2.0
                     </div>
                 </div>
 
