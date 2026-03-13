@@ -9,6 +9,7 @@ class SovereigntyLedger:
     """
     def __init__(self):
         self.chain = []
+        self.ledger_id = hashlib.sha256(b"SpaceLink-Sovereign-Root-v1").hexdigest()
         self.create_block(proof=1, previous_hash="0") # Genesis block
 
     def create_block(self, proof, previous_hash):

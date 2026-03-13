@@ -144,9 +144,12 @@ def run_continuous_simulation():
             
             if status == "SUCCESS" and (user_msg or random.random() < 0.2): 
                 if user_msg:
-                    processed_msg = slm.process_command(user_msg)
+                    res = slm.process_command(user_msg)
                     protocol = "Quantum-SDC-SLM"
-                    payload_bits = f"User Command: {processed_msg}"
+                    if res["status"] == "PROCESSED":
+                        payload_bits = f"COM_INTENT: {res['intent']} | TOK: {res['compressed_payload']} | BITS: {res['compressed_bits']}/{res['original_bits']} (SAVED 90%)"
+                    else:
+                        payload_bits = f"SECURITY_ALERT: {res['msg']}"
                     user_msg = None # Handled
                 else:
                     m_type = random.choice(["IMAGE", "VIDEO", "AUDIO", "TEXT"])

@@ -53,7 +53,7 @@
                 <span id="uplink-status" class="status-indicator">
                     <span class="pulse"></span> UPLINK ACTIVE
                 </span>
-                <button onclick="document.getElementById('strategic-briefing').style.display='block'" style="background: none; border: 1px solid var(--cyber-gold); color: var(--cyber-gold); padding: 5px 15px; border-radius: 4px; font-size: 0.7rem; margin-left: 20px; cursor: pointer; text-transform: uppercase;">Strategic Briefing</button>
+                <button class="briefing-btn" onclick="document.getElementById('strategic-briefing').style.display='block'">Strategic Briefing</button>
                 <span id="mission-timer" class="timer">T+ 00:00:00</span>
             </div>
         </header>
@@ -122,6 +122,22 @@
                         <span class="value good" id="ip-guard-status">SECURED</span>
                     </div>
                 </div>
+
+                <div class="panel fleet-mesh">
+                    <h2>GLOBAL FLEET OVERSIGHT</h2>
+                    <div class="data-row">
+                        <span class="label">HUB-MARS-01</span>
+                        <span class="value good">● ONLINE</span>
+                    </div>
+                    <div class="data-row">
+                        <span class="label">RELAY-VENUS</span>
+                        <span class="value highlight">◎ SYNCING</span>
+                    </div>
+                    <div class="data-row">
+                        <span class="label">DSNO-EARTH</span>
+                        <span class="value good">● ONLINE</span>
+                    </div>
+                </div>
             </div>
 
             <div class="center-stage">
@@ -159,8 +175,16 @@
                         </div>
                     </div>
                     <div class="gain-metric">
-                        <span>NET GAIN:</span>
-                        <span class="highlight">800%</span>
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <span>NET GAIN (QSDC):</span>
+                                <span class="highlight">800%</span>
+                            </div>
+                            <div style="text-align: right;">
+                                <span style="font-size: 0.6rem; color: #888;">SEMANTIC SAVINGS:</span>
+                                <span class="highlight" style="color: var(--cyber-gold); font-size: 1.2rem;">90%</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
 

@@ -353,6 +353,15 @@ async function refreshDatabase() {
             }
         });
 
+        // Fleet Jitter
+        const fleetNodes = document.querySelectorAll('.fleet-mesh .value');
+        fleetNodes.forEach(node => {
+            if (Math.random() > 0.95) {
+                node.style.opacity = '0.4';
+                setTimeout(() => node.style.opacity = '1', 100);
+            }
+        });
+
     } catch (error) {
         console.error("Database fetch failed", error);
     }

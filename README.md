@@ -12,20 +12,26 @@ The project features a **Premium HUD Mission Control** dashboard designed for re
 ## ✨ Key Features
 - **Quantum Superdense Coding (QSDC)**: Simulates the transmission of 2 classical bits using only 1 entangled qubit (Photonics-based).
 - **Space-JEPA (Foundational AI)**: Joint-Embedding Predictive Architecture for proactive space environment anomaly detection.
+- **Sovereign SLM**: Small Language Model integration for secure, low-latency command intent detection.
 - **Sovereignty Ledger (Blockchain)**: Immutable traceability for every data packet to ensure Digital Sovereignty.
-- **Advanced AIGC-HUD**: A professional, glassmorphism-based dashboard with real-time Three.js orbital visualizations.
+- **IP-Guard (Patent Layer)**: Automated architectural fingerprinting to secure intellectual property at every system layer.
+- **Advanced AIGC-HUD**: A professional, glassmorphism-based dashboard with real-time Three.js orbital visualizations and **Strategic Briefing** mode.
 - **Multimedia Payloads**: Supports transmission and decryption of **Images, Video, Audio, and Telemetry**.
 - **User Command Uplink**: Interactive UI section allowing operators to send direct commands to the Lunar station.
 - **Anomaly Detection & Security**: Real-time simulation of space weather (Solar Flares), orbital debris, and **SPOOFING HACKS** with manual resolution overrides.
 
 ## 🛠️ Project Structure
-- `launcher.py`: The main entry point. Starts the Mission Control server and browser.
-- `continuous_simulation.py`: The physics/quantum engine that generates live mission data.
+- `launcher.py`: The main entry point. Starts the Mission Control server and synchronization tools.
+- `continuous_simulation.py`: The core 'System of Systems' engine that drives live mission data.
 - `jepa_engine.py`: Foundational AI engine for predictive modeling of signal paths.
+- `sovereign_slm.py`: Intent detection model for secure command processing.
 - `sovereignty_ledger.py`: Blockchain-based ledger for transmission traceability.
-- `database_manager.py`: Handles secure sync with the Supabase Cloud database.
+- `ip_guard.py`: Architectural security and patent-layer protection system.
+- `database_manager.py`: Handles encrypted sync with the Supabase Cloud database.
 - `dashboard/`: The web-based Mission Control interface (HTML5/CSS3/Vanilla JS).
 - `quantum_relay.py`: Core logic for Superdense Coding and QBER calculation.
+- `ARCHITECTURE.md`: Technical blueprint and Mermaid diagrams.
+- `ROADMAP.md`: 24-month strategic scale-up plan.
 
 ## 🚦 Getting Started
 
