@@ -1,0 +1,17 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+ENV/
+.env
+*.key
+*.bak
+*.swp
+data.json
+user_in.txt
+override.txt
+.vscode/
+.idea/
