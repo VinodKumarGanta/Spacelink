@@ -119,19 +119,26 @@ body::after {
 }
 
 .dot {
-    width: 6px;
-    height: 6px;
+    width: 8px;
+    height: 8px;
     background-color: var(--success);
     border-radius: 50%;
-    box-shadow: 0 0 8px var(--success);
+    box-shadow: 0 0 12px var(--success);
+    animation: status-pulse 2s infinite ease-in-out;
+}
+
+@keyframes status-pulse {
+    0% { transform: scale(1); opacity: 1; box-shadow: 0 0 8px var(--success); }
+    50% { transform: scale(1.3); opacity: 0.6; box-shadow: 0 0 15px var(--success); }
+    100% { transform: scale(1); opacity: 1; box-shadow: 0 0 8px var(--success); }
 }
 
 .mission-timer {
     font-family: var(--font-mono);
-    font-size: 0.9rem;
+    font-size: 1.1rem; /* Slightly larger for visibility */
     color: var(--warning);
     margin-top: 4px;
-    font-weight: 600;
+    font-weight: 700;
 }
 
 .header-right {
@@ -574,10 +581,10 @@ input[type="text"] {
     position: absolute;
     cursor: pointer;
     top: 0; left: 0; right: 0; bottom: 0;
-    background-color: rgba(255,255,255,0.1);
+    background-color: rgba(255,255,255,0.05); /* Desaturated for OFF */
     transition: .4s;
     border-radius: 20px;
-    border: 1px solid var(--danger);
+    border: 1px solid var(--text-muted); /* Gray border when OFF */
 }
 
 .slider:before {
@@ -587,7 +594,7 @@ input[type="text"] {
     width: 14px;
     left: 2px;
     bottom: 2px;
-    background-color: var(--danger);
+    background-color: var(--text-muted); /* Gray dot when OFF */
     transition: .4s;
     border-radius: 50%;
 }
@@ -648,10 +655,36 @@ table.data-table td {
     color: var(--text-main);
 }
 
-.status-success { color: var(--text-bright); }
-.status-sys-warn { color: var(--warning); }
-.status-lost { color: var(--danger); }
 .status-corrupt { color: var(--danger); }
+
+/* --- UI/UX Placeholders --- */
+.placeholder-text {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    font-style: italic;
+    padding: 10px;
+}
+
+.placeholder-cell {
+    text-align: center;
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+    padding: 30px 10px !important;
+    opacity: 0.6;
+}
+
+/* --- Viewport Fix Backdrop --- */
+.canvas-wrapper::before {
+    content: 'INITIALIZING VIEWPORT...';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: var(--font-header);
+    color: var(--accent);
+    letter-spacing: 5px;
+    font-size: 0.8rem;
+    opacity: 0.3;
+}
 
 /* --- Mobile Responsiveness --- */
 @media screen and (max-width: 1024px) {

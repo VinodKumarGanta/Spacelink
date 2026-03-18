@@ -19,6 +19,7 @@ function initAudio() {
 function playUISound(type) {
     if (!audioCtx) initAudio();
     if (audioCtx.state === 'suspended') audioCtx.resume();
+    console.log("[AUDIO] Triggering system sound: " + type + ", mode: " + (audioCtx.state));
     
     // Check for physical assets as priority fallback
     const htmlAudio = document.getElementById('audio-' + type);
@@ -87,11 +88,22 @@ const attenuationVal = document.getElementById('attenuation-val');
 const historyBody = document.getElementById('history-body');
 const refreshBtn = document.getElementById('refresh-db-btn');
 const solarVal = document.getElementById('solar-val');
-const secureInbox = document.getElementById('secure-inbox');
-const inboxMessage = document.getElementById('inbox-message');
+const secureInbox = document.querySelector('.secure-inbox-content'); // Changed to class for stability
 const jepaConfidenceVal = document.getElementById('jepa-confidence');
 const ipGuardStatusVal = document.getElementById('ip-guard-status');
 const blockchainStatusVal = document.getElementById('blockchain-status');
+const missionTimer = document.getElementById('mission-timer');
+const qberVal = document.getElementById('qber-val');
+
+// --- Timer Logic ---
+let secondsElapsed = 0;
+setInterval(() => {
+    secondsElapsed++;
+    const hrs = String(Math.floor(secondsElapsed / 3600)).padStart(2, '0');
+    const mins = String(Math.floor((secondsElapsed % 3600) / 60)).padStart(2, '0');
+    const secs = String(secondsElapsed % 60).padStart(2, '0');
+    if (missionTimer) missionTimer.textContent = `T+ ${hrs}:${mins}:${secs}`;
+}, 1000);
 
 // --- Three.js Setup ---
 const scene = new THREE.Scene();
@@ -155,16 +167,20 @@ if (vistaSelect) {
 // Earth (Hyper-Realistic)
 const earthGeometry = new THREE.SphereGeometry(2, 64, 64);
 const earthMaterial = new THREE.MeshPhongMaterial({
-    map: textureLoader.load('https://unpkg.com/three-globe/example/img/earth-blue-marble.jpg'),
-    bumpMap: textureLoader.load('https://unpkg.com/three-globe/example/img/earth-topology.png'),
+    color: 0x224488, // Blue fallback
     bumpScale: 0.15,
-    specularMap: textureLoader.load('https://unpkg.com/three-globe/example/img/earth-water.png'),
-    specular: new THREE.Color(0x555555),
     shininess: 35
 });
 const earth = new THREE.Mesh(earthGeometry, earthMaterial);
 earth.position.set(-8, 0, 0);
 scene.add(earth);
+
+// Safe Texture Loading to prevent black-hole effect
+textureLoader.load('https://eoimages.gsfc.nasa.gov/images/imagerecords/73000/73531/world.topo.bathy.200407.3x5400x2700.jpg', 
+    (tex) => { earthMaterial.map = tex; earthMaterial.needsUpdate = true; },
+    undefined, 
+    (err) => console.warn("Earth texture failed, using spectral fallback")
+);
 
 // Earth Clouds Layer
 const cloudGeometry = new THREE.SphereGeometry(2.03, 64, 64);
@@ -194,13 +210,19 @@ earth.add(atmosphere);
 // Moon (Hyper-Realistic)
 const marsGeometry = new THREE.SphereGeometry(1.0, 64, 64);
 const marsMaterial = new THREE.MeshStandardMaterial({
-    map: textureLoader.load('https://upload.wikimedia.org/wikipedia/commons/d/db/Moonmap_from_clementine_data.png'),
+    color: 0x888888, // Gray fallback
     roughness: 0.85,
     metalness: 0.2
 });
 const mars = new THREE.Mesh(marsGeometry, marsMaterial);
 mars.position.set(8, 0, 0);
 scene.add(mars);
+
+textureLoader.load('https://svs.gsfc.nasa.gov/vis/a000000/a004700/a004720/lroc_color_poles_1k.jpg', 
+    (tex) => { marsMaterial.map = tex; marsMaterial.needsUpdate = true; },
+    undefined,
+    (err) => console.warn("Moon texture failed, using lunar fallback")
+);
 
 // Particles for data stream ambiance
 const particlesGeometry = new THREE.BufferGeometry();

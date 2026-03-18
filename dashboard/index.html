@@ -82,8 +82,8 @@
                 <div class="glass-panel">
                     <div class="panel-header">I 2. Quantum Encryption</div>
                     <div class="data-row"><span class="label">Entanglement Rate</span><span class="value highlight">4.2M pairs/s</span></div>
-                    <div class="data-row"><span class="label">QBER</span><span class="value good">1.2%</span></div>
-                    <div class="data-row"><span class="label">Protocol</span><span class="value bold">ACTIVE (2 Mbps)</span></div>
+                    <div class="data-row"><span class="label">QBER</span><span class="value good" id="qber-val">1.2%</span></div>
+                    <div class="data-row"><span class="label">JEPA Confidence</span><span class="value" id="jepa-confidence">98.5%</span></div>
                 </div>
 
                 <!-- Panel 3 (Comms) -->
@@ -139,11 +139,11 @@
                     <!-- Live Ledger -->
                     <div class="glass-panel live-ledger">
                         <div class="panel-header flex-between">
-                            <span>I Live Ledger</span>
+                            <span>I 4. Live Ledger</span>
                             <button class="clear-btn" id="clear-btn">Clear</button>
                         </div>
                         <div class="terminal-logs" id="logs-container">
-                            <!-- Logs go here -->
+                            <div class="placeholder-text">Connecting to quantum relay...</div>
                         </div>
                     </div>
 
@@ -155,7 +155,7 @@
                             <div class="threat-info">
                                 <div class="threat-title">Jamming Hack</div>
                                 <div class="threat-desc">Injects hostile noise into the quantum channel</div>
-                                <div class="threat-status error">OFF</div>
+                                <div class="threat-status" id="ip-guard-status">SECURED</div>
                             </div>
                             <label class="toggle-switch">
                                 <input type="checkbox" id="inject-btn">
@@ -167,7 +167,7 @@
                             <div class="threat-info">
                                 <div class="threat-title">AI Shield</div>
                                 <div class="threat-desc">Autonomous interference purge & recovery</div>
-                                <div class="threat-status warn">STANDBY</div>
+                                <div class="threat-status" id="blockchain-status">STANDBY</div>
                             </div>
                             <label class="toggle-switch">
                                 <input type="checkbox" id="resolve-btn">
@@ -182,7 +182,7 @@
             <aside class="right-col">
                 <!-- Payload Override -->
                 <div class="glass-panel">
-                    <div class="panel-header">I 3. Payload Override</div>
+                    <div class="panel-header">I 6. Payload Override</div>
                     <div class="sub-text mb-10">Select manual override sequence to bypass standard telemetry.</div>
                     <select id="payload-override-select" class="styled-select full-width mb-10">
                         <option value="">Select Command...</option>
@@ -201,7 +201,7 @@
 
                 <!-- Blockchain Logging Table -->
                 <div class="glass-panel flex-grow">
-                    <div class="panel-header">I 4. Blockchain Logging</div>
+                    <div class="panel-header">I 7. Blockchain Logging</div>
                     <div class="btn-group mb-10">
                         <button class="action-btn outline half" id="refresh-db-btn">Sync</button>
                         <button class="action-btn danger half">Flush</button>
@@ -218,7 +218,7 @@
                                 </tr>
                             </thead>
                             <tbody id="history-body">
-                                <!-- Populated by JS -->
+                                <tr><td colspan="4" class="placeholder-cell">Awaiting node synchronization...</td></tr>
                             </tbody>
                         </table>
                     </div>
