@@ -1,68 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Space-Link: Quantum Relay</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@400;500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="index.css">
+    <title>Space-Link: Quantum Relay | AI Control Center</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="ai_assistant.css">
 </head>
+
 <body>
-    <!-- Background Audio Assets -->
-    <audio id="audio-hover" src="assets/sounds/hover.mp3" preload="auto"></audio>
-    <audio id="audio-open" src="assets/sounds/unfold_activation.mp3" preload="auto"></audio>
-    <audio id="audio-select" src="assets/sounds/selection_confirmed.mp3" preload="auto"></audio>
+    <!-- Premium Animated Background -->
+    <div class="bg-gradient-overlay"></div>
 
     <div class="app-container">
-        
-        <!-- Header -->
+        <!-- Header (Restored Alignment) -->
         <header class="app-header">
             <div class="header-left">
                 <h1>SPACE-LINK: QUANTUM RELAY</h1>
                 <div class="subtitle">HIGH-EFFICIENCY PHOTON-BASED DEEP SPACE DATA NETWORK</div>
             </div>
-            
+
             <div class="header-center">
                 <div class="status-badge"><span class="dot"></span> Quantum Link Active</div>
                 <div class="mission-timer" id="mission-timer">T+ 00:00:00</div>
             </div>
-            
+
             <div class="header-right">
-                <label>Vistas:</label>
-                <select id="vista-select" class="styled-select">
-                    <option value="cosmos">Cosmos</option>
-                    <option value="deep-space">Deep Space</option>
-                    <option value="galaxy">Galaxy</option>
-                    <option value="nebula">Nebula 1</option>
-                    <option value="starfield">Starfield</option>
-                </select>
-                
-                <div class="theme-selector">
-                    <label>Theme:</label>
-                    <div class="theme-dots">
-                        <span class="dot-theme active" style="background: #4a90e2;"></span>
-                        <span class="dot-theme" style="background: #50e3c2;"></span>
-                        <span class="dot-theme" style="background: #e94a4a;"></span>
+                <div class="nav-controls">
+                    <label>Vistas:</label>
+                    <select id="vista-select" class="styled-select">
+                        <option value="81897-577880823_medium.mp4">Quantum Field</option>
+                        <option value="181078-865395671_medium.mp4">Dark Nebula</option>
+                        <option value="342123_medium.mp4">Hyperspace</option>
+                        <option value="101416-657812490_medium.mp4">Core Singularity</option>
+                        <option value="215575_medium.mp4">Event Horizon</option>
+                        <option value="208759_medium.mp4">Stellar Drift</option>
+                        <option value="istockphoto-937520232-640_adpp_is.mp4">Deep Void</option>
+                    </select>
+
+                    <div class="theme-selector">
+                        <label>Theme:</label>
+                        <div class="theme-dots">
+                            <span class="dot-theme active" style="background: #4a90e2;"></span>
+                            <span class="dot-theme" style="background: #50e3c2;"></span>
+                            <span class="dot-theme" style="background: #e94a4a;"></span>
+                        </div>
+                    </div>
+
+                    <div class="ai-voice-control">
+                        <label>AI Voice</label>
+                        <label class="toggle-switch mini">
+                            <input type="checkbox" id="ai-voice-toggle" checked>
+                            <span class="slider"></span>
+                        </label>
                     </div>
                 </div>
             </div>
         </header>
 
-        <!-- Main Layout -->
+        <!-- Main Layout (Restored 3-Column Alignment) -->
         <main class="main-layout">
-            
             <!-- Left Column -->
             <aside class="left-col">
-                <!-- Panel 1 -->
-                <div class="glass-panel">
+                <div class="glass-panel" data-tilt data-tilt-max="5">
                     <div class="panel-header">I 1. Telemetry & Alignment</div>
                     <div class="data-row"><span class="label">Distance to Moon</span><span class="value" id="distance-val">384,400 km</span></div>
                     <div class="data-row"><span class="label">Latency (OWLT)</span><span class="value" id="owlt-val">1.28 sec</span></div>
                     <div class="data-row"><span class="label">Attenuation</span><span class="value" id="attenuation-val">-262 dB</span></div>
                     <div class="data-row"><span class="label">Environment</span><span class="value warn" id="solar-val">INTERFERENCE</span></div>
                     <div class="sub-text">• Live orbital data - Updates every 60s</div>
-                    
+
                     <div class="control-group mt-15">
                         <label>Select Transmission Protocol:</label>
                         <select id="mode-select" class="styled-select full-width">
@@ -73,28 +90,23 @@
                         </select>
                     </div>
                     <button class="action-btn mt-10" id="transmit-btn">Initiate Ping</button>
-                    <!-- Hidden distance slider logic preserved -->
                     <input type="range" id="dist-slider" min="350000" max="406000" value="384400" style="display:none;">
-                    <span id="dist-display" style="display:none;">384400</span>
                 </div>
 
-                <!-- Panel 2 -->
-                <div class="glass-panel">
+                <div class="glass-panel" data-tilt data-tilt-max="5">
                     <div class="panel-header">I 2. Quantum Encryption</div>
                     <div class="data-row"><span class="label">Entanglement Rate</span><span class="value highlight">4.2M pairs/s</span></div>
-                    <div class="data-row"><span class="label">QBER</span><span class="value good" id="qber-val">1.2%</span></div>
-                    <div class="data-row"><span class="label">JEPA Confidence</span><span class="value" id="jepa-confidence">98.5%</span></div>
+                    <div class="data-row"><span class="label">QBER</span><span class="value good">1.2%</span></div>
+                    <div class="data-row"><span class="label">Protocol</span><span class="value bold">ACTIVE (2 Mbps)</span></div>
                 </div>
 
-                <!-- Panel 3 (Comms) -->
-                <div class="glass-panel flex-grow comms-panel">
+                <div class="glass-panel flex-grow comms-panel" data-tilt data-tilt-max="2">
                     <div class="panel-header">I 3. Comms Terminal <span class="expand-icon">⤢</span></div>
                     <div class="tabs">
                         <div class="tab active">📄 Text</div>
                         <div class="tab">🎙️ Audio</div>
                         <div class="tab">📹 Video</div>
                     </div>
-                    
                     <div class="chat-area" id="decoded-display-container">
                         <div class="chat-bubble system">
                             <span class="chat-sender">🌍 Earth-DSNO</span>
@@ -107,14 +119,7 @@
                             <div id="payload-audio" style="display:none; color:var(--accent);">[AUDIO FEED ACTIVE]</div>
                         </div>
                     </div>
-
                     <div class="chat-input-area">
-                        <div class="sample-selector">
-                            <label>Sample:</label>
-                            <select class="styled-select mini">
-                                <option>Haptic-Q Data</option>
-                            </select>
-                        </div>
                         <div class="input-row">
                             <input type="text" id="user-input" placeholder="Type custom message to Moon...">
                             <button class="send-btn" id="send-user-btn">Send ↗</button>
@@ -125,8 +130,7 @@
 
             <!-- Center Column -->
             <section class="center-col">
-                <!-- 3D Viewport -->
-                <div class="viewport-panel">
+                <div class="viewport-panel glass-panel" data-tilt data-tilt-max="2">
                     <div id="canvas-container" class="canvas-wrapper"></div>
                     <div class="hud-tags">
                         <div class="tag earth-tag">EARTH - DSNO</div>
@@ -134,40 +138,41 @@
                     </div>
                 </div>
 
-                <!-- Bottom Row under Viewport -->
                 <div class="bottom-panels">
-                    <!-- Live Ledger -->
                     <div class="glass-panel live-ledger">
                         <div class="panel-header flex-between">
-                            <span>I 4. Live Ledger</span>
+                            <span>I Live Ledger</span>
                             <button class="clear-btn" id="clear-btn">Clear</button>
                         </div>
-                        <div class="terminal-logs" id="logs-container">
-                            <div class="placeholder-text">Connecting to quantum relay...</div>
-                        </div>
+                        <div class="terminal-logs" id="logs-container"></div>
                     </div>
 
-                    <!-- Threat Mitigation -->
                     <div class="glass-panel threat-mitigation">
                         <div class="panel-header">I 5. Threat Mitigation</div>
-                        
                         <div class="threat-row">
                             <div class="threat-info">
                                 <div class="threat-title">Jamming Hack</div>
-                                <div class="threat-desc">Injects hostile noise into the quantum channel</div>
-                                <div class="threat-status" id="ip-guard-status">SECURED</div>
+                                <div class="threat-desc">Injects hostile noise into data stream</div>
                             </div>
                             <label class="toggle-switch">
                                 <input type="checkbox" id="inject-btn">
                                 <span class="slider"></span>
                             </label>
                         </div>
-
+                        <div class="threat-row">
+                            <div class="threat-info">
+                                <div class="threat-title">Spoofing Hack</div>
+                                <div class="threat-desc">Forges signal origin data</div>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="spoof-btn">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
                         <div class="threat-row">
                             <div class="threat-info">
                                 <div class="threat-title">AI Shield</div>
-                                <div class="threat-desc">Autonomous interference purge & recovery</div>
-                                <div class="threat-status" id="blockchain-status">STANDBY</div>
+                                <div class="threat-desc">Autonomous recovery</div>
                             </div>
                             <label class="toggle-switch">
                                 <input type="checkbox" id="resolve-btn">
@@ -175,15 +180,27 @@
                             </label>
                         </div>
                     </div>
+
+                    <div class="glass-panel firmware-scanner">
+                        <div class="panel-header flex-between">
+                            <span>I 6. Firmware Scan</span>
+                        </div>
+                        <div class="scanner-controls">
+                            <div class="sub-text">Deep-scan 'arduino_link.ino' integrity.</div>
+                            <button id="scan-firmware-btn" class="action-btn half mt-10">Scan Code</button>
+                        </div>
+                        <div class="scan-results mt-10" id="scan-results-container">
+                            <div class="no-scan">Ready for verification.</div>
+                        </div>
+                    </div>
                 </div>
             </section>
 
             <!-- Right Column -->
             <aside class="right-col">
-                <!-- Payload Override -->
                 <div class="glass-panel">
-                    <div class="panel-header">I 6. Payload Override</div>
-                    <div class="sub-text mb-10">Select manual override sequence to bypass standard telemetry.</div>
+                    <div class="panel-header">I 3. Payload Override</div>
+                    <div class="sub-text mb-10">Select manual override sequence.</div>
                     <select id="payload-override-select" class="styled-select full-width mb-10">
                         <option value="">Select Command...</option>
                         <option value="FLUSH_BUFFER">Flush Telemetry Buffer</option>
@@ -192,43 +209,62 @@
                         <option value="FORCE_JAMMING">Force Jamming Scenario</option>
                     </select>
                     <button id="payload-override-btn" class="action-btn outline full-width">Transmit Securely</button>
-                    
-                    <div class="secure-inbox-header mt-15">MOON-STATION SECURE INBOX</div>
-                    <div class="secure-inbox-content">
-                        > [SYSTEM EVENT: Encrypted Video Stream Initialized]
+
+                    <div class="secure-inbox-header mt-15">SECURE INBOX</div>
+                    <div class="secure-inbox-content" id="inbox-message">
+                        > Standby for incoming data...
                     </div>
                 </div>
 
-                <!-- Blockchain Logging Table -->
                 <div class="glass-panel flex-grow">
-                    <div class="panel-header">I 7. Blockchain Logging</div>
+                    <div class="panel-header">I 4. Blockchain Logging</div>
                     <div class="btn-group mb-10">
                         <button class="action-btn outline half" id="refresh-db-btn">Sync</button>
                         <button class="action-btn danger half">Flush</button>
                     </div>
-                    
+
                     <div class="table-wrapper">
                         <table class="data-table">
                             <thead>
                                 <tr>
                                     <th>Src</th>
-                                    <th>Dest</th>
                                     <th>Status</th>
+                                    <th>Bits</th>
                                     <th>Sec</th>
                                 </tr>
                             </thead>
-                            <tbody id="history-body">
-                                <tr><td colspan="4" class="placeholder-cell">Awaiting node synchronization...</td></tr>
-                            </tbody>
+                            <tbody id="history-body"></tbody>
                         </table>
                     </div>
                 </div>
             </aside>
-            
         </main>
     </div>
 
-    <!-- Scripts -->
+    <!-- AI Specialist Status Panel (Integrated) -->
+    <div class="ai-status-overlay">
+        <div class="ai-panel glass">
+            <div class="ai-avatar">
+                <div class="ai-avatar-ring"></div>
+                <div class="ai-avatar-core"></div>
+            </div>
+            <div class="ai-info">
+                <div class="ai-label">MISSION AI SPECIALIST</div>
+                <div class="ai-sub-label">Listening for commands...</div>
+                <div class="ai-wave-container">
+                    <div class="wave-bar"></div>
+                    <div class="wave-bar"></div>
+                    <div class="wave-bar"></div>
+                    <div class="wave-bar"></div>
+                    <div class="wave-bar"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts (Restored original logic order) -->
     <script src="app.js"></script>
+    <script src="ai_mission.js"></script>
 </body>
+
 </html>

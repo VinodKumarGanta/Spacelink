@@ -71,8 +71,13 @@ def run_continuous_simulation():
                     cmd = f.read().strip()
                 if cmd == "INJECT_JAMMING":
                     anomaly_active = True
-                    forced_event = ("SPOOFING HACK", "SEC-BREACH", "MANUAL OVERRIDE: Jamming signature injected.")
+                    forced_event = ("JAMMING HACK", "SYS-WARN", "MANUAL OVERRIDE: Noise floor elevated.")
                     # Clear override after reading
+                    with open(override_file, 'w') as f:
+                        f.write("NOMINAL")
+                elif cmd == "INJECT_SPOOFING":
+                    anomaly_active = True
+                    forced_event = ("SPOOFING HACK", "SEC-BREACH", "MANUAL OVERRIDE: Forged signal origin detected.")
                     with open(override_file, 'w') as f:
                         f.write("NOMINAL")
                 elif cmd == "RESOLVE":

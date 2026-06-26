@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SPACE-LINK: Quantum Relay | Enterprise Dashboard</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="theme-space">
+    <div id="app" class="dashboard-container">
+        <!-- Top Bar -->
+        <header class="top-bar">
+            <div class="brand">
+                <div class="logo-orb">
+                    <div class="inner-pulse"></div>
+                </div>
+                <div class="brand-text">
+                    <h1>SPACE-LINK: <span class="accent-text">Quantum Relay</span></h1>
+                    <p class="subtitle">High-efficiency photon-based deep space data network</p>
+                </div>
+            </div>
+            
+            <div class="system-status">
+                <div class="status-indicator">
+                    <span class="dot-glow"></span>
+                    <span class="status-label">Quantum Link Active</span>
+                </div>
+                <div class="mission-timer">
+                    <span class="timer-prefix">T+</span>
+                    <span id="timer-value" class="timer-digits">00:00:00</span>
+                </div>
+            </div>
+
+            <div class="top-controls">
+                <div class="theme-switcher">
+                    <button class="theme-btn active" data-theme="blue" title="Cosmos"></button>
+                    <button class="theme-btn" data-theme="green" title="Emerald"></button>
+                    <button class="theme-btn" data-theme="purple" title="Quantum"></button>
+                </div>
+                <div class="vista-dropdown">
+                    <i data-lucide="eye"></i>
+                    <select id="vista-select">
+                        <option value="cosmos">Vista: Cosmos</option>
+                        <option value="station">Vista: Moon Station</option>
+                        <option value="orbiter">Vista: LRO Orbiter</option>
+                    </select>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Workspace -->
+        <main class="workspace">
+            <!-- Left Sidebar -->
+            <aside class="sidebar-left">
+                <!-- Section 1: Telemetry -->
+                <section class="glass-panel telemetry-section">
+                    <div class="panel-header">
+                        <i data-lucide="activity"></i>
+                        <h2>1. Telemetry & Alignment</h2>
+                    </div>
+                    <div class="stat-grid">
+                        <div class="stat-item">
+                            <span class="stat-label">Distance to Moon</span>
+                            <span class="stat-value" id="dist-val">384,400 <small>km</small></span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Latency (OWLT)</span>
+                            <span class="stat-value" id="latency-val">1.28 <small>sec</small></span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Attenuation</span>
+                            <span class="stat-value text-cyan" id="atten-val">-262 <small>dB</small></span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Environment Status</span>
+                            <span class="stat-value text-green" id="env-status">NOMINAL</span>
+                        </div>
+                    </div>
+                    <div class="panel-control">
+                        <label>Transmission Protocol</label>
+                        <div class="select-wrapper">
+                            <select id="protocol-select">
+                                <option>Quantum (Superdense)</option>
+                                <option>L-Band High RF</option>
+                                <option>Optical S-Link</option>
+                            </select>
+                        </div>
+                        <div class="monitor-label">Signal Real-time Monitor</div>
+                        <div class="signal-monitor" id="signal-monitor">
+                            <!-- Injected by JS -->
+                        </div>
+                        <button class="btn btn-primary btn-glow mt-10" id="ping-btn">
+                            <i data-lucide="send"></i>
+                            Initiate Ping Sequence
+                        </button>
+                    </div>
+                </section>
+
+                <!-- Section 2: Quantum Encryption -->
+                <section class="glass-panel quantum-section">
+                    <div class="panel-header">
+                        <i data-lucide="shield-check"></i>
+                        <h2>2. Quantum Encryption</h2>
+                    </div>
+                    <div class="gauge-container">
+                        <div class="mini-stats">
+                            <div class="mini-stat">
+                                <span class="m-label">Entanglement Rate</span>
+                                <span class="m-value">4.2M <small>pairs/s</small></span>
+                            </div>
+                            <div class="mini-stat">
+                                <span class="m-label">QBER %</span>
+                                <span class="m-value text-green">1.2%</span>
+                            </div>
+                        </div>
+                        <div class="protocol-badge">
+                            <span class="badge active">PROTOCOL: ACTIVE (BB84)</span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section 3: Comms Terminal -->
+                <section class="glass-panel comms-section flex-grow">
+                    <div class="panel-header">
+                        <i data-lucide="terminal"></i>
+                        <h2>3. Comms Terminal</h2>
+                        <div class="tab-group" id="comms-tabs">
+                            <button class="active" data-tab="text">Text</button>
+                            <button data-tab="audio">Audio</button>
+                            <button data-tab="video">Video</button>
+                        </div>
+                    </div>
+                    <div class="terminal-body" id="terminal-feed">
+                        <div class="msg system">
+                            <span class="timestamp">[21:26:05]</span> SYSTEM: Quantum link Earth-Moon online.
+                        </div>
+                        <div class="msg station">
+                            <span class="station-tag">MOON-STATION:</span> Status check - Relay node 4 responding.
+                        </div>
+                    </div>
+                    <div class="terminal-input">
+                        <input type="text" placeholder="Type secure message..." id="message-input">
+                        <button class="btn-icon" id="send-btn">
+                            <i data-lucide="corner-down-left"></i>
+                        </button>
+                    </div>
+                </section>
+            </aside>
+
+            <!-- Center Panel: Hero Viz -->
+            <section class="vis-center">
+                <div class="visualization-container">
+                    <div class="canvas-bg"></div>
+                    <img src="assets/hero_viz.png" alt="Earth Moon Visualization" class="hero-image">
+                    
+                    <div class="hud-overlay">
+                        <div class="hud-tag earth-tag">
+                            <span class="tag-line">EARTH - DSNO</span>
+                            <div class="pulse-point"></div>
+                        </div>
+                        <div class="hud-tag moon-tag">
+                            <span class="tag-line">MOON - STATION</span>
+                            <div class="pulse-point"></div>
+                        </div>
+                        
+                        <div class="floating-notification">
+                            <div class="notif-content">
+                                <i data-lucide="loader-2" class="spin"></i>
+                                <span>Background task: Moon Station processing uplink data...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Center Bottom Panels -->
+                <div class="bottom-controls">
+                    <!-- Live Ledger -->
+                    <div class="glass-panel ledger-panel flex-grow">
+                        <div class="panel-header">
+                            <i data-lucide="list"></i>
+                            <h2>Live Ledger</h2>
+                            <button class="btn-clear" onclick="clearLogs()">Clear</button>
+                        </div>
+                        <div class="ledger-logs" id="ledger-logs">
+                            <div class="log-entry">
+                                <span class="time">21:26:30</span>
+                                <span class="tag src">EARTH</span>
+                                <span class="arrow">→</span>
+                                <span class="tag dst">MOON</span>
+                                <span class="status ok">ACK_RECV</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Threat Mitigation -->
+                    <div class="glass-panel threat-panel">
+                        <div class="panel-header">
+                            <i data-lucide="radar"></i>
+                            <h2>Threat Mitigation</h2>
+                        </div>
+                        <div class="threat-controls">
+                            <div class="threat-toggle">
+                                <div class="toggle-info">
+                                    <span class="t-name">Jamming Hack</span>
+                                    <span class="t-status off">OFF</span>
+                                </div>
+                                <label class="switch">
+                                    <input type="checkbox" id="jam-toggle">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            <div class="threat-toggle">
+                                <div class="toggle-info">
+                                    <span class="t-name">AI Shield</span>
+                                    <span class="t-status standby">STANDBY</span>
+                                </div>
+                                <label class="switch">
+                                    <input type="checkbox" id="shield-toggle">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Right Sidebar -->
+            <aside class="sidebar-right">
+                <!-- Payload Override -->
+                <section class="glass-panel payload-section">
+                    <div class="panel-header">
+                        <i data-lucide="zap"></i>
+                        <h2>Payload Override</h2>
+                    </div>
+                    <div class="panel-body">
+                        <p class="panel-instructions">Select command sequence to bypass telemetry.</p>
+                        <div class="select-wrapper">
+                            <select id="command-select">
+                                <option>FLUSH_BUFFER</option>
+                                <option>ORBIT_SYNC</option>
+                                <option>SECURITY_LOCKDOWN</option>
+                            </select>
+                        </div>
+                        <button class="btn btn-outline full-width" id="transmit-secure-btn">Transmit Securely</button>
+                    </div>
+                </section>
+
+                <!-- Secure Inbox -->
+                <section class="glass-panel inbox-section">
+                    <div class="panel-header">
+                        <i data-lucide="mail"></i>
+                        <h2>Secure Inbox</h2>
+                    </div>
+                    <div class="inbox-body green-text-terminal" id="inbox-feed">
+                        > [SYSTEM EVENT: Encrypted Video Stream Initialized]
+                        > [STATION]: Waiting for photon parity handshake...
+                    </div>
+                </section>
+
+                <!-- Blockchain Logging -->
+                <section class="glass-panel blockchain-section flex-grow">
+                    <div class="panel-header">
+                        <i data-lucide="link"></i>
+                        <h2>Blockchain Logging</h2>
+                        <div class="header-actions">
+                            <button class="btn-micro" id="sync-btn"><i data-lucide="refresh-cw"></i></button>
+                            <button class="btn-micro btn-danger" id="flush-btn"><i data-lucide="trash-2"></i></button>
+                        </div>
+                    </div>
+                    <div class="table-container">
+                        <table class="blockchain-table">
+                            <thead>
+                                <tr>
+                                    <th>Src</th>
+                                    <th>Dest</th>
+                                    <th>Status</th>
+                                    <th>Time</th>
+                                </tr>
+                            </thead>
+                            <tbody id="blockchain-tbody">
+                                <!-- Data injected via JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </aside>
+        </main>
+    </div>
+
+    <!-- UI SFX -->
+    <audio id="sfx-click" src="https://assets.mixkit.co/sfx/preview/mixkit-modern-technology-select-3118.mp3"></audio>
+    <audio id="sfx-ping" src="https://assets.mixkit.co/sfx/preview/mixkit-sci-fi-confirmation-914.mp3"></audio>
+
+    <script src="main.js"></script>
+</body>
+</html>
